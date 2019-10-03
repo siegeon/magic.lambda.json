@@ -8,33 +8,13 @@ using System.Linq;
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using magic.node;
 using magic.signals.contracts;
-using magic.node.extensions.hyperlambda;
 using magic.signals.services;
 
 namespace magic.lambda.json.tests
 {
     public static class Common
     {
-        [Slot(Name = "foo")]
-        public class FooSlot : ISlot
-        {
-            public void Signal(ISignaler signaler, Node input)
-            {
-                input.Value = "OK";
-            }
-        }
-
-        static public Node Evaluate(string hl)
-        {
-            var services = Initialize();
-            var lambda = new Parser(hl).Lambda();
-            var signaler = services.GetService(typeof(ISignaler)) as ISignaler;
-            signaler.Signal("eval", lambda);
-            return lambda;
-        }
-
         static public ISignaler GetSignaler()
         {
             var services = Initialize();

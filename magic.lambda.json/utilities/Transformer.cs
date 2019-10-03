@@ -3,24 +3,78 @@
  * Licensed as Affero GPL unless an explicitly proprietary license has been obtained.
  */
 
-using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json.Linq;
 using magic.node;
-using magic.signals.contracts;
 
-namespace magic.json
+namespace magic.lambda.json.utilities
 {
-    // TODO: Sanity check. Not entirely sure it actually works for all possible permutations.
-    [Slot(Name = ".from-json-raw")]
-    public class FromJsonRaw : ISlot
+    internal static class Transformer
     {
-        public void Signal(ISignaler signaler, Node input)
+        public static void TransformToNode(Node node, JContainer container)
         {
-            HandleToken(input, input.Value as JToken);
-            input.Value = null;
+            HandleToken(node, container);
+        }
+
+        public static JContainer TransformToJSON(Node node)
+        {
+            return Handle(node) as JContainer;
         }
 
         #region [ -- Private helper methods -- ]
+
+        #region [ -- Transforming from lambda to JSON helpers -- ]
+
+        static JToken Handle(Node root)
+        {
+            JToken result = null;
+            if (root.Children.Any(x => x.Name != "" && x.Name != "."))
+            {
+                // Complex object.
+                var resObj = new JObject();
+                foreach (var idx in root.Children)
+                {
+                    resObj.Add(HandleProperty(idx));
+                }
+                result = resObj;
+            }
+            else if (root.Children.Any())
+            {
+                // Array.
+                var resArr = new JArray();
+                foreach (var idx in root.Children)
+                {
+                    resArr.Add(HandleArray(idx));
+                }
+                result = resArr;
+            }
+            else
+            {
+                result = new JObject();
+            }
+
+            return result;
+        }
+
+        static JToken HandleArray(Node idx)
+        {
+            if (idx.Children.Any())
+                return Handle(idx);
+            else
+                return new JValue(idx.Value);
+        }
+
+        static JProperty HandleProperty(Node idx)
+        {
+            if (idx.Children.Any())
+                return new JProperty(idx.Name, Handle(idx));
+
+            return new JProperty(idx.Name, idx.Value);
+        }
+
+        #endregion
+
+        #region [ -- Transforming from JSON to Node helpers -- ]
 
         static void HandleToken(Node node, JToken token)
         {
@@ -76,6 +130,9 @@ namespace magic.json
                 HandleToken(cur, idx);
             }
         }
+
+        #endregion
+
         #endregion
     }
 }

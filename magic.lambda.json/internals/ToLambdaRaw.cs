@@ -3,22 +3,29 @@
  * Licensed as Affero GPL unless an explicitly proprietary license has been obtained.
  */
 
-using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using magic.node;
-using magic.node.extensions;
 using magic.signals.contracts;
 
-namespace magic.json
+namespace magic.lambda.json.internals
 {
     // TODO: Sanity check. Not entirely sure it actually works for all possible permutations.
-    [Slot(Name = "from-json")]
-    public class FromJson : ISlot
+    /// <summary>
+    /// [.from-json-raw] slot for transforming from a raw Newtonsoft JSON object to a lambda structure,
+    /// without having to transform it to a string first.
+    /// </summary>
+    [Slot(Name = ".from-json-raw")]
+    public class ToLambdaRaw : ISlot
     {
+        /// <summary>
+        /// Slot implementation.
+        /// </summary>
+        /// <param name="signaler">Signaler that raised signal.</param>
+        /// <param name="input">Arguments to slot.</param>
         public void Signal(ISignaler signaler, Node input)
         {
-            HandleToken(input, JToken.Parse(input.GetEx<string>()));
+            HandleToken(input, input.Value as JToken);
             input.Value = null;
         }
 

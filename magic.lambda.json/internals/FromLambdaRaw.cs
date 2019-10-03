@@ -9,12 +9,21 @@ using magic.node;
 using magic.node.extensions;
 using magic.signals.contracts;
 
-namespace magic.json
+namespace magic.lambda.json.internals
 {
     // TODO: Sanity check. Not entirely sure it actually works for all possible permutations.
+    /// <summary>
+    /// [.to-json-raw] slot for transforming to a raw Newtonsoft JSON JContainer object, without
+    /// ever transforming to a string.
+    /// </summary>
     [Slot(Name = ".to-json-raw")]
-    public class ToJsonRaw : ISlot
+    public class FromLambdaRaw : ISlot
     {
+        /// <summary>
+        /// Slot implementation.
+        /// </summary>
+        /// <param name="signaler">Signaler that raised signal.</param>
+        /// <param name="input">Arguments to slot.</param>
         public void Signal(ISignaler signaler, Node input)
         {
             if (input.Value != null)
