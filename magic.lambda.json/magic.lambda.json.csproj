@@ -3,6 +3,20 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>magic.lambda.json</PackageId>
+    <Authors>Thomas Hansen</Authors>
+    <Company>Thomas Hansen</Company>
+    <Copyright>Thomas Hansen, thomas@gaiasoul.com</Copyright>
+    <Description>JSON helper slots for Magic to help transform JSON to and from lambda and Hyperlambda.</Description>
+    <PackageProjectUrl>https://github.com/polterguy/magic.lambda.json</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/polterguy/magic.lambda.json/master/LICENSE</PackageLicenseUrl>
+    <PackageIconUrl>https://polterguy.github.io/favicon.ico</PackageIconUrl>
+    <PackOnBuild>true</PackOnBuild>
+    <PackageVersion>1.1.0</PackageVersion>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/polterguy/magic.lambda.json.git</RepositoryUrl>
+    <PackageTags>json, parsing, hyperlambda</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -11,7 +25,7 @@
 
   <ItemGroup>
     <PackageReference Include="magic.node" Version="1.0.0" />
-    <PackageReference Include="magic.node.extensions" Version="1.0.0" />
+    <PackageReference Include="magic.node.extensjsonns" Version="1.0.0" />
     <PackageReference Include="magic.signals.contracts" Version="1.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
   </ItemGroup>
