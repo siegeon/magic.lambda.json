@@ -15,8 +15,8 @@ namespace magic.lambda.json.internals
     /// [.from-json-raw] slot for transforming from a raw Newtonsoft JSON object to a lambda structure,
     /// without having to transform it to a string first.
     /// </summary>
-    [Slot(Name = ".from-json-raw")]
-    public class ToLambdaRaw : ISlot
+    [Slot(Name = ".json2lambda-raw")]
+    public class Json2LambdaRaw : ISlot
     {
         /// <summary>
         /// Slot implementation.

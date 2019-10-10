@@ -12,13 +12,11 @@ using magic.lambda.json.utilities;
 
 namespace magic.lambda.json
 {
-    // TODO: Sanity check. Not entirely sure it actually works for all possible permutations.
     /// <summary>
-    /// [json.from-lambda] slot for transforming a lambda hierarchy to a JSON string.
+    /// [lambda2json] slot for transforming a lambda hierarchy to a JSON string.
     /// </summary>
-    [Slot(Name = "json.from-lambda")]
-    [Slot(Name = "json.to-json")]
-    public class FromLambda : ISlot
+    [Slot(Name = "lambda2json")]
+    public class Lambda2Json : ISlot
     {
         /// <summary>
         /// Slot implementation.

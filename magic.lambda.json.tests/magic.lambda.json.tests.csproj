@@ -14,7 +14,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="magic.lambda.hyperlambda" Version="1.1.5" />
+    <PackageReference Include="magic.lambda.hyperlambda" Version="1.1.8" />
+    <PackageReference Include="magic.signals" Version="1.1.8" />
   </ItemGroup>
 
   <ItemGroup>

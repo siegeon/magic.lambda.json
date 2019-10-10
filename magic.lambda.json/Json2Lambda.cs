@@ -13,11 +13,10 @@ namespace magic.lambda.json
 {
     // TODO: Sanity check. Not entirely sure it actually works for all possible permutations.
     /// <summary>
-    /// [json.to-lambda] slot for transforming a piece of JSON to a lambda hierarchy.
+    /// [json2lambda] slot for transforming a piece of JSON to a lambda hierarchy.
     /// </summary>
-    [Slot(Name = "json.from-json")]
-    [Slot(Name = "json.to-lambda")]
-    public class ToLambda : ISlot
+    [Slot(Name = "json2lambda")]
+    public class Json2Lambda : ISlot
     {
         /// <summary>
         /// Slot implementation.
