@@ -2,25 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageId>magic.lambda.json</PackageId>
-    <Authors>Thomas Hansen</Authors>
-    <Company>Thomas Hansen</Company>
-    <Copyright>Thomas Hansen, thomas@gaiasoul.com</Copyright>
-    <Description>JSON helper slots for Magic to help you transform JSON to lambda and vice versa.</Description>
-    <PackageProjectUrl>https://github.com/polterguy/magic.lambda.json</PackageProjectUrl>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/polterguy/magic.lambda.json/master/LICENSE</PackageLicenseUrl>
-    <PackageIconUrl>https://polterguy.github.io/favicon.ico</PackageIconUrl>
-    <PackOnBuild>true</PackOnBuild>
-    <PackageVersion>2.0.1</PackageVersion>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/polterguy/magic.lambda.json.git</RepositoryUrl>
-    <PackageTags>json, parsing, hyperlambda</PackageTags>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin/Release/netstandard2.0/magic.lambda.json.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
