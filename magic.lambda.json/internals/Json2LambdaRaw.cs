@@ -80,7 +80,7 @@ namespace magic.lambda.json.internals
                         }
                     }
                 }
-                var cur = new Node();
+                var cur = new Node(".");
                 node.Add(cur);
                 HandleToken(cur, idx);
             }
