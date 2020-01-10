@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 using magic.node;
 using magic.node.extensions;
 using magic.signals.contracts;
+using System;
 
 namespace magic.lambda.json.internals
 {
@@ -39,7 +40,7 @@ namespace magic.lambda.json.internals
         private JToken Handle(Node root)
         {
             JToken result = null;
-            if (root.Children.Any(x => x.Name != "" && x.Name != "."))
+            if (root.Children.Any(x => x.Name.Length > 0 && x.Name != "."))
             {
                 // Complex object.
                 var resObj = new JObject();
@@ -72,7 +73,10 @@ namespace magic.lambda.json.internals
             if (idx.Children.Any())
                 return Handle(idx);
 
-            return new JValue(idx.Value);
+            var value = idx.Value;
+            if (value is DateTime dateValue)
+                value = new DateTimeOffset(dateValue);
+            return new JValue(value);
         }
 
         private JProperty HandleProperty(Node idx)
@@ -80,7 +84,10 @@ namespace magic.lambda.json.internals
             if (idx.Children.Any())
                 return new JProperty(idx.Name, Handle(idx));
 
-            return new JProperty(idx.Name, idx.Value);
+            var value = idx.Value;
+            if (value is DateTime dateValue)
+                value = new DateTimeOffset(dateValue);
+            return new JProperty(idx.Name, value);
         }
 
         #endregion
