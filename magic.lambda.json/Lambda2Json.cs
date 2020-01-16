@@ -25,12 +25,21 @@ namespace magic.lambda.json
         /// <param name="input">Arguments to slot.</param>
         public void Signal(ISignaler signaler, Node input)
         {
+            var tmp = new Node();
+            var format = false;
             if (input.Value != null)
-                input.AddRange(input.Evaluate().Select(x => x.Clone()));
+            {
+                format = input.Children.FirstOrDefault(x => x.Name == "format")?.GetEx<bool>() ?? false;
+                tmp.AddRange(input.Evaluate().Select(x => x.Clone()));
+            }
+            else
+            {
+                tmp.AddRange(input.Children.Select(x => x.Clone()));
+            }
 
-            var token = Transformer.TransformToJSON(input);
+            var token = Transformer.TransformToJSON(tmp);
             input.Clear();
-            input.Value = token.ToString(Newtonsoft.Json.Formatting.None);
+            input.Value = token.ToString(format ? Newtonsoft.Json.Formatting.Indented : Newtonsoft.Json.Formatting.None);
         }
     }
 }
