@@ -85,8 +85,10 @@ namespace magic.lambda.json.internals
                 return new JProperty(idx.Name, Handle(idx));
 
             var value = idx.Value;
+
+            // Notice, for JSON we want to return dates as Zulu!
             if (value is DateTime dateValue)
-                value = new DateTimeOffset(dateValue);
+                value = dateValue.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
             return new JProperty(idx.Name, value);
         }
 
