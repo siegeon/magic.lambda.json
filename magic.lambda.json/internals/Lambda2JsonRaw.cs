@@ -88,7 +88,7 @@ namespace magic.lambda.json.internals
 
             // Notice, for JSON we want to return dates as Zulu!
             if (value is DateTime dateValue)
-                value = dateValue.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
+                value = dateValue.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
             return new JProperty(idx.Name, value);
         }
 
