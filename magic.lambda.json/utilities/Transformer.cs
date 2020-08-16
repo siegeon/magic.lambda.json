@@ -67,7 +67,7 @@ namespace magic.lambda.json.utilities
             {
                 var value = idx.Value;
                 if (value is DateTime dateValue)
-                    value = new DateTimeOffset(dateValue);
+                    value = dateValue.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
                 return new JValue(value);
             }
         }
@@ -80,7 +80,7 @@ namespace magic.lambda.json.utilities
 
             // Notice, for JSON we want to return dates as Zulu!
             if (value is DateTime dateValue)
-                value = dateValue.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
+                value = dateValue.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
             return new JProperty(idx.Name, value);
         }
 
