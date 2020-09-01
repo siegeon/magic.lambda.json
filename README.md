@@ -22,7 +22,7 @@ resulting JSON will be indeneted and nicely formated, making it more readable.
 ## License
 
 Although most of Magic's source code is Open Source, you will need a license key to use it.
-You can [obtain a license key here](https://servergardens.com/buy/).
+[You can obtain a license key here](https://servergardens.com/buy/).
 Notice, 7 days after you put Magic into production, it will stop working, unless you have a valid
 license for it.
 
