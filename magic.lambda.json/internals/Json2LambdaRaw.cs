@@ -10,7 +10,6 @@ using magic.signals.contracts;
 
 namespace magic.lambda.json.internals
 {
-    // TODO: Sanity check. Not entirely sure it actually works for all possible permutations.
     /// <summary>
     /// [.from-json-raw] slot for transforming from a raw Newtonsoft JSON object to a lambda structure,
     /// without having to transform it to a string first.
@@ -75,7 +74,7 @@ namespace magic.lambda.json.internals
                             var prop = obj.First as JProperty;
                             var tmp = new Node(prop.Name);
                             node.Add(tmp);
-                            HandleToken(tmp, prop.Value as JToken);
+                            HandleToken(tmp, prop.Value);
                             continue;
                         }
                     }

@@ -57,21 +57,6 @@ namespace magic.lambda.json.utilities
             return result;
         }
 
-        static JToken HandleArray(Node idx)
-        {
-            if (idx.Children.Any())
-            {
-                return Handle(idx);
-            }
-            else
-            {
-                var value = idx.Value;
-                if (value is DateTime dateValue)
-                    value = dateValue.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
-                return new JValue(value);
-            }
-        }
-
         static JProperty HandleProperty(Node idx)
         {
             if (idx.Children.Any())
@@ -108,6 +93,21 @@ namespace magic.lambda.json.utilities
             }
         }
 
+        static JToken HandleArray(Node idx)
+        {
+            if (idx.Children.Any())
+            {
+                return Handle(idx);
+            }
+            else
+            {
+                var value = idx.Value;
+                if (value is DateTime dateValue)
+                    value = dateValue.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
+                return new JValue(value);
+            }
+        }
+
         static void HandleArray(Node node, JArray arr)
         {
             foreach (var idx in arr)
@@ -132,7 +132,7 @@ namespace magic.lambda.json.utilities
                             var prop = obj.First as JProperty;
                             var tmp = new Node(prop.Name);
                             node.Add(tmp);
-                            HandleToken(tmp, prop.Value as JToken);
+                            HandleToken(tmp, prop.Value);
                             continue;
                         }
                     }

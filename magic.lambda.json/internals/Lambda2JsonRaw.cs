@@ -12,7 +12,6 @@ using System;
 
 namespace magic.lambda.json.internals
 {
-    // TODO: Sanity check. Not entirely sure it actually works for all possible permutations.
     /// <summary>
     /// [.to-json-raw] slot for transforming to a raw Newtonsoft JSON JContainer object, without
     /// ever transforming to a string.
