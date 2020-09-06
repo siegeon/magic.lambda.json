@@ -11,7 +11,6 @@ using magic.lambda.json.utilities;
 
 namespace magic.lambda.json
 {
-    // TODO: Sanity check. Not entirely sure it actually works for all possible permutations.
     /// <summary>
     /// [json2lambda] slot for transforming a piece of JSON to a lambda hierarchy.
     /// </summary>
