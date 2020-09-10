@@ -10,13 +10,23 @@ using magic.node;
 
 namespace magic.lambda.json.utilities
 {
+    /*
+     * Internal helper/implementation class, doing the heavy lifting.
+     */
     internal static class Transformer
     {
-        public static void TransformToNode(Node node, JContainer container)
+        /*
+         * Transforms the given JContainer to a lambda object,
+         * and injects into the given node.
+         */
+        internal static void TransformToNode(Node node, JContainer container)
         {
             HandleToken(node, container);
         }
 
+        /*
+         * Creates a JContainer from the specified lambda/node object.
+         */
         public static JContainer TransformToJSON(Node node)
         {
             return Handle(node) as JContainer;
@@ -24,7 +34,7 @@ namespace magic.lambda.json.utilities
 
         #region [ -- Private helper methods -- ]
 
-        #region [ -- Transforming from lambda to JSON helpers -- ]
+        #region [ -- Transforming from lambda to JSON helper methods -- ]
 
         static JToken Handle(Node root)
         {
@@ -71,7 +81,7 @@ namespace magic.lambda.json.utilities
 
         #endregion
 
-        #region [ -- Transforming from JSON to Node helpers -- ]
+        #region [ -- Transforming from JSON to Node helper methods -- ]
 
         static void HandleToken(Node node, JToken token)
         {
@@ -103,7 +113,7 @@ namespace magic.lambda.json.utilities
             {
                 var value = idx.Value;
                 if (value is DateTime dateValue)
-                    value = dateValue.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
+                    value = dateValue.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
                 return new JValue(value);
             }
         }
