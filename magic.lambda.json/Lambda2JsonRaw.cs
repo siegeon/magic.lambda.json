@@ -10,7 +10,7 @@ using magic.node.extensions;
 using magic.signals.contracts;
 using System;
 
-namespace magic.lambda.json.internals
+namespace magic.lambda.json
 {
     /// <summary>
     /// [.to-json-raw] slot for transforming to a raw Newtonsoft JSON JContainer object, without
