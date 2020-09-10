@@ -3,12 +3,13 @@
  * See the enclosed LICENSE file for details.
  */
 
+using System;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using magic.node;
 using magic.node.extensions;
 using magic.signals.contracts;
-using System;
+using magic.lambda.json.utilities;
 
 namespace magic.lambda.json
 {
@@ -26,71 +27,15 @@ namespace magic.lambda.json
         /// <param name="input">Arguments to slot.</param>
         public void Signal(ISignaler signaler, Node input)
         {
+            var tmp = new Node();
             if (input.Value != null)
-                input.AddRange(input.Evaluate());
+                tmp.AddRange(input.Evaluate().Select(x => x.Clone()));
+            else
+                tmp.AddRange(input.Children.Select(x => x.Clone()));
 
-            var token = Handle(input);
+            var token = Transformer.TransformToJSON(tmp);
             input.Clear();
             input.Value = token;
         }
-
-        #region [ -- Private helper methods -- ]
-
-        private JToken Handle(Node root)
-        {
-            JToken result = null;
-            if (root.Children.Any(x => x.Name.Length > 0 && x.Name != "."))
-            {
-                // Complex object.
-                var resObj = new JObject();
-                foreach (var idx in root.Children)
-                {
-                    resObj.Add(HandleProperty(idx));
-                }
-                result = resObj;
-            }
-            else if (root.Children.Any())
-            {
-                // Array.
-                var resArr = new JArray();
-                foreach (var idx in root.Children)
-                {
-                    resArr.Add(HandleArray(idx));
-                }
-                result = resArr;
-            }
-            else
-            {
-                result = new JObject();
-            }
-
-            return result;
-        }
-
-        private JToken HandleArray(Node idx)
-        {
-            if (idx.Children.Any())
-                return Handle(idx);
-
-            var value = idx.Value;
-            if (value is DateTime dateValue)
-                value = dateValue.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
-            return new JValue(value);
-        }
-
-        private JProperty HandleProperty(Node idx)
-        {
-            if (idx.Children.Any())
-                return new JProperty(idx.Name, Handle(idx));
-
-            var value = idx.Value;
-
-            // Notice, for JSON we want to return dates as Zulu!
-            if (value is DateTime dateValue)
-                value = dateValue.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
-            return new JProperty(idx.Name, value);
-        }
-
-        #endregion
     }
 }

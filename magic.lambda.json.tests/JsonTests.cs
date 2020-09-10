@@ -7,6 +7,7 @@ using System.Linq;
 using Xunit;
 using Newtonsoft.Json.Linq;
 using magic.node;
+using magic.node.extensions;
 
 namespace magic.lambda.json.tests
 {
@@ -218,6 +219,19 @@ foo2:bar2
         }
 
         [Fact]
+        public void ToJsonSimpleObjectRaw()
+        {
+            var signaler = Common.GetSignaler();
+            var node = new Node("", @"
+foo1
+foo2:bar2
+");
+            signaler.Signal("hyper2lambda", node);
+            signaler.Signal(".lambda2json-raw", node);
+            Assert.Equal(@"{""foo1"":null,""foo2"":""bar2""}", node.Get<JContainer>().ToString(Newtonsoft.Json.Formatting.None));
+        }
+
+        [Fact]
         public void ToJsonSimpleArray_01()
         {
             var signaler = Common.GetSignaler();
@@ -228,6 +242,19 @@ foo2:bar2
             signaler.Signal("hyper2lambda", node);
             signaler.Signal("lambda2json", node);
             Assert.Equal(@"[5,7]", node.Value);
+        }
+
+        [Fact]
+        public void ToJsonSimpleArray_01_Raw()
+        {
+            var signaler = Common.GetSignaler();
+            var node = new Node("", @"
+:int:5
+:int:7
+");
+            signaler.Signal("hyper2lambda", node);
+            signaler.Signal(".lambda2json-raw", node);
+            Assert.Equal(@"[5,7]", node.Get<JContainer>().ToString(Newtonsoft.Json.Formatting.None));
         }
 
         [Fact]
@@ -273,6 +300,51 @@ foo2:bar2
             signaler.Signal("hyper2lambda", node);
             signaler.Signal("lambda2json", node);
             Assert.Equal(@"[{""foo1"":{""foo11"":""bar11""}},{""foo2"":{""foo22"":""bar22""}}]", node.Value);
+        }
+
+        [Fact]
+        public void ToJsonSimpleArray_02_Raw()
+        {
+            var signaler = Common.GetSignaler();
+            var node = new Node("", @"
+.:int:5
+.:int:7
+");
+            signaler.Signal("hyper2lambda", node);
+            signaler.Signal(".lambda2json-raw", node);
+            Assert.Equal(@"[5,7]", node.Get<JContainer>().ToString(Newtonsoft.Json.Formatting.None));
+        }
+
+        [Fact]
+        public void ToJsonComplexArray_01_Raw()
+        {
+            var signaler = Common.GetSignaler();
+            var node = new Node("", @"
+.
+   foo1:bar1
+.
+   foo2:bar2
+");
+            signaler.Signal("hyper2lambda", node);
+            signaler.Signal(".lambda2json-raw", node);
+            Assert.Equal(@"[{""foo1"":""bar1""},{""foo2"":""bar2""}]", node.Get<JContainer>().ToString(Newtonsoft.Json.Formatting.None));
+        }
+
+        [Fact]
+        public void ToJsonComplexArray_02_Raw()
+        {
+            var signaler = Common.GetSignaler();
+            var node = new Node("", @"
+.
+   foo1
+      foo11:bar11
+.
+   foo2
+      foo22:bar22
+");
+            signaler.Signal("hyper2lambda", node);
+            signaler.Signal(".lambda2json-raw", node);
+            Assert.Equal(@"[{""foo1"":{""foo11"":""bar11""}},{""foo2"":{""foo22"":""bar22""}}]", node.Get<JContainer>().ToString(Newtonsoft.Json.Formatting.None));
         }
     }
 }
