@@ -8,6 +8,7 @@ using Xunit;
 using Newtonsoft.Json.Linq;
 using magic.node;
 using magic.node.extensions;
+using magic.node.extensions.hyperlambda;
 
 namespace magic.lambda.json.tests
 {
@@ -216,6 +217,23 @@ foo2:bar2
             signaler.Signal("hyper2lambda", node);
             signaler.Signal("lambda2json", node);
             Assert.Equal(@"{""foo1"":null,""foo2"":""bar2""}", node.Value);
+        }
+
+        [Fact]
+        public void ToJsonSimpleObjectFormat()
+        {
+            var signaler = Common.GetSignaler();
+            var node = new Parser(@"
+.lambda
+   foo1
+   foo2:bar2
+lambda2json:x:-/*
+   format:bool:true
+").Lambda();
+            signaler.Signal("eval", node);
+            var json = node.Children.Skip(1).First().Get<string>();
+            System.Console.WriteLine(json);
+            Assert.Equal("{\n  \"foo1\": null,\n  \"foo2\": \"bar2\"\n}", json.Replace("\r\n", "\n"));
         }
 
         [Fact]
