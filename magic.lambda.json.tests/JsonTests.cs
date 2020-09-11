@@ -403,5 +403,20 @@ json2lambda:x:-
             Assert.Equal(@"[""howdy"",{""foo1"":""bar1"",""foo2"":5}]", lambda.Children.First().Get<string>());
             Assert.Equal("json2lambda\r\n   .:howdy\r\n   .\r\n      foo1:bar1\r\n      foo2:long:5\r\n", lambda.Children.Skip(1).First().ToHyperlambda());
         }
+
+        [Fact]
+        public void ToJsonHyperlambdaInvocationWithDate_05()
+        {
+            var lambda = Common.Evaluate(@"
+lambda2json
+   .:date:""2020-01-01T23:59:11""
+   .
+      foo1:bar1
+      foo2:int:5
+json2lambda:x:-
+");
+            Assert.Equal(@"[""2020-01-01T23:59:11.000Z"",{""foo1"":""bar1"",""foo2"":5}]", lambda.Children.First().Get<string>());
+            Assert.Equal("json2lambda\r\n   .:date:\"2020-01-01T23:59:11.000Z\"\r\n   .\r\n      foo1:bar1\r\n      foo2:long:5\r\n", lambda.Children.Skip(1).First().ToHyperlambda());
+        }
     }
 }
