@@ -21,90 +21,34 @@ namespace magic.lambda.json.utilities
          */
         internal static void ToNode(Node node, JContainer container)
         {
-            HandleToken(node, container);
+            node.Clear();
+            node.Value = null;
+            JToken2Node(node, container);
         }
 
         #region [ -- Private helper methods -- ]
 
-        static JToken Handle(Node root)
-        {
-            JToken result = null;
-            if (root.Children.Any(x => x.Name.Length > 0 && x.Name != "."))
-            {
-                // Complex object.
-                var resObj = new JObject();
-                foreach (var idx in root.Children)
-                {
-                    resObj.Add(HandleProperty(idx));
-                }
-                result = resObj;
-            }
-            else if (root.Children.Any())
-            {
-                // Array.
-                var resArr = new JArray();
-                foreach (var idx in root.Children)
-                {
-                    resArr.Add(HandleArray(idx));
-                }
-                result = resArr;
-            }
-            else
-            {
-                result = new JObject();
-            }
-
-            return result;
-        }
-
-        static JProperty HandleProperty(Node idx)
-        {
-            if (idx.Children.Any())
-                return new JProperty(idx.Name, Handle(idx));
-            var value = idx.Value;
-
-            // Notice, for JSON we want to return dates as Zulu!
-            if (value is DateTime dateValue)
-                value = dateValue.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
-            return new JProperty(idx.Name, value);
-        }
-
-        static void HandleToken(Node node, JToken token)
+        static void JToken2Node(Node node, JToken token)
         {
             if (token is JArray)
-                HandleArray(node, token as JArray);
+                JArray2Node(node, token as JArray);
             else if (token is JObject)
-                HandleObject(node, token as JObject);
+                JObject2Node(node, token as JObject);
             else if (token is JValue)
                 node.Value = (token as JValue).Value;
         }
 
-        static void HandleObject(Node node, JObject obj)
+        static void JObject2Node(Node node, JObject obj)
         {
             foreach (var idx in obj)
             {
                 var cur = new Node(idx.Key);
                 node.Add(cur);
-                HandleToken(cur, idx.Value);
+                JToken2Node(cur, idx.Value);
             }
         }
 
-        static JToken HandleArray(Node idx)
-        {
-            if (idx.Children.Any())
-            {
-                return Handle(idx);
-            }
-            else
-            {
-                var value = idx.Value;
-                if (value is DateTime dateValue)
-                    value = dateValue.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
-                return new JValue(value);
-            }
-        }
-
-        static void HandleArray(Node node, JArray arr)
+        static void JArray2Node(Node node, JArray arr)
         {
             foreach (var idx in arr)
             {
@@ -128,14 +72,14 @@ namespace magic.lambda.json.utilities
                             var prop = obj.First as JProperty;
                             var tmp = new Node(prop.Name);
                             node.Add(tmp);
-                            HandleToken(tmp, prop.Value);
+                            JToken2Node(tmp, prop.Value);
                             continue;
                         }
                     }
                 }
                 var cur = new Node();
                 node.Add(cur);
-                HandleToken(cur, idx);
+                JToken2Node(cur, idx);
             }
         }
 
