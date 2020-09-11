@@ -216,7 +216,6 @@ lambda2json:x:-/*
 ").Lambda();
             signaler.Signal("eval", node);
             var json = node.Children.Skip(1).First().Get<string>();
-            System.Console.WriteLine(json);
             Assert.Equal("{\n  \"foo1\": null,\n  \"foo2\": \"bar2\"\n}", json.Replace("\r\n", "\n"));
         }
 
@@ -450,6 +449,18 @@ json2lambda:x:-
 ");
             Assert.Equal("[\n  \"2020-01-01T23:59:11.000Z\",\n  {\n    \"foo1\": \"bar1\",\n    \"foo2\": 5\n  }\n]", lambda.Children.Skip(1).First().Get<string>().Replace("\r\n", "\n"));
             Assert.Equal("json2lambda\r\n   .:date:\"2020-01-01T23:59:11.000Z\"\r\n   .\r\n      foo1:bar1\r\n      foo2:long:5\r\n", lambda.Children.Skip(2).First().ToHyperlambda());
+        }
+
+        [Fact]
+        public void ToJsonHyperlambdaInvocationFormat_08()
+        {
+            var lambda = Common.Evaluate(@"
+.foo
+lambda2json:x:-/*
+json2lambda:x:-
+");
+            Assert.Equal(@"{}", lambda.Children.Skip(1).First().Get<string>());
+            Assert.Equal("json2lambda\r\n", lambda.Children.Skip(2).First().ToHyperlambda());
         }
     }
 }
