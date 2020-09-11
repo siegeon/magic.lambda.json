@@ -13,28 +13,18 @@ namespace magic.lambda.json.utilities
     /*
      * Internal helper/implementation class, doing the heavy lifting.
      */
-    internal static class Transformer
+    internal static class Json2LambdaTransformer
     {
         /*
          * Transforms the given JContainer to a lambda object,
          * and injects into the given node.
          */
-        internal static void TransformToNode(Node node, JContainer container)
+        internal static void ToNode(Node node, JContainer container)
         {
             HandleToken(node, container);
         }
 
-        /*
-         * Creates a JContainer from the specified lambda/node object.
-         */
-        public static JContainer TransformToJSON(Node node)
-        {
-            return Handle(node) as JContainer;
-        }
-
         #region [ -- Private helper methods -- ]
-
-        #region [ -- Transforming from lambda to JSON helper methods -- ]
 
         static JToken Handle(Node root)
         {
@@ -78,10 +68,6 @@ namespace magic.lambda.json.utilities
                 value = dateValue.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
             return new JProperty(idx.Name, value);
         }
-
-        #endregion
-
-        #region [ -- Transforming from JSON to Node helper methods -- ]
 
         static void HandleToken(Node node, JToken token)
         {
@@ -152,8 +138,6 @@ namespace magic.lambda.json.utilities
                 HandleToken(cur, idx);
             }
         }
-
-        #endregion
 
         #endregion
     }
