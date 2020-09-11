@@ -25,15 +25,8 @@ namespace magic.lambda.json
         /// <param name="input">Arguments to slot.</param>
         public void Signal(ISignaler signaler, Node input)
         {
-            var tmp = new Node();
-            if (input.Value != null)
-                tmp.AddRange(input.Evaluate().Select(x => x.Clone()));
-            else
-                tmp.AddRange(input.Children.Select(x => x.Clone()));
-
-            var jContainer = Lambda2JsonTransformer.ToJson(tmp);
+            input.Value = Lambda2JsonTransformer.ToJson(input);
             input.Clear();
-            input.Value = jContainer;
         }
     }
 }
