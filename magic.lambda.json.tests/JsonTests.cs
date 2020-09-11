@@ -88,11 +88,11 @@ namespace magic.lambda.json.tests
             var signaler = Common.GetSignaler();
             var node = new Node("", @"[5, 6, 7]");
             signaler.Signal("json2lambda", node);
-            Assert.Equal("", node.Children.First().Name);
+            Assert.Equal(".", node.Children.First().Name);
             Assert.Equal(5L, node.Children.First().Value);
-            Assert.Equal("", node.Children.Skip(1).First().Name);
+            Assert.Equal(".", node.Children.Skip(1).First().Name);
             Assert.Equal(6L, node.Children.Skip(1).First().Value);
-            Assert.Equal("", node.Children.Skip(2).First().Name);
+            Assert.Equal(".", node.Children.Skip(2).First().Name);
             Assert.Equal(7L, node.Children.Skip(2).First().Value);
         }
 
@@ -102,11 +102,11 @@ namespace magic.lambda.json.tests
             var signaler = Common.GetSignaler();
             var node = new Node("", JToken.Parse(@"[5, 6, 7]"));
             signaler.Signal(".json2lambda-raw", node);
-            Assert.Equal("", node.Children.First().Name);
+            Assert.Equal(".", node.Children.First().Name);
             Assert.Equal(5L, node.Children.First().Value);
-            Assert.Equal("", node.Children.Skip(1).First().Name);
+            Assert.Equal(".", node.Children.Skip(1).First().Name);
             Assert.Equal(6L, node.Children.Skip(1).First().Value);
-            Assert.Equal("", node.Children.Skip(2).First().Name);
+            Assert.Equal(".", node.Children.Skip(2).First().Name);
             Assert.Equal(7L, node.Children.Skip(2).First().Value);
         }
 
@@ -116,10 +116,12 @@ namespace magic.lambda.json.tests
             var signaler = Common.GetSignaler();
             var node = new Node("", @"[{""foo1"": ""bar1""}, {""foo2"": ""bar2""}]");
             signaler.Signal("json2lambda", node);
-            Assert.Equal("foo1", node.Children.First().Name);
-            Assert.Equal("bar1", node.Children.First().Value);
-            Assert.Equal("foo2", node.Children.Skip(1).First().Name);
-            Assert.Equal("bar2", node.Children.Skip(1).First().Value);
+            Assert.Equal(".", node.Children.First().Name);
+            Assert.Equal("foo1", node.Children.First().Children.First().Name);
+            Assert.Equal("bar1", node.Children.First().Children.First().Value);
+            Assert.Equal(".", node.Children.Skip(1).First().Name);
+            Assert.Equal("foo2", node.Children.Skip(1).First().Children.First().Name);
+            Assert.Equal("bar2", node.Children.Skip(1).First().Children.First().Value);
         }
 
         [Fact]
@@ -128,10 +130,12 @@ namespace magic.lambda.json.tests
             var signaler = Common.GetSignaler();
             var node = new Node("", JToken.Parse(@"[{""foo1"": ""bar1""}, {""foo2"": ""bar2""}]"));
             signaler.Signal(".json2lambda-raw", node);
-            Assert.Equal("foo1", node.Children.First().Name);
-            Assert.Equal("bar1", node.Children.First().Value);
-            Assert.Equal("foo2", node.Children.Skip(1).First().Name);
-            Assert.Equal("bar2", node.Children.Skip(1).First().Value);
+            Assert.Equal(".", node.Children.First().Name);
+            Assert.Equal("foo1", node.Children.First().Children.First().Name);
+            Assert.Equal("bar1", node.Children.First().Children.First().Value);
+            Assert.Equal(".", node.Children.Skip(1).First().Name);
+            Assert.Equal("foo2", node.Children.Skip(1).First().Children.First().Name);
+            Assert.Equal("bar2", node.Children.Skip(1).First().Children.First().Value);
         }
 
         [Fact]
@@ -140,37 +144,13 @@ namespace magic.lambda.json.tests
             var signaler = Common.GetSignaler();
             var node = new Node("", @"[{""foo1"": {""name"": ""thomas""}}, {""foo2"": {""name"": ""hansen""}}]");
             signaler.Signal("json2lambda", node);
-            Assert.Equal("foo1", node.Children.First().Name);
-            Assert.Equal("name", node.Children.First().Children.First().Name);
-            Assert.Equal("thomas", node.Children.First().Children.First().Value);
-            Assert.Equal("foo2", node.Children.Skip(1).First().Name);
-            Assert.Equal("name", node.Children.Skip(1).First().Children.First().Name);
-            Assert.Equal("hansen", node.Children.Skip(1).First().Children.First().Value);
             signaler.Signal("lambda2hyper", node);
-            Assert.Equal(@"foo1
-   name:thomas
-foo2
-   name:hansen
-".Replace("\r", "").Replace("\n", "\r\n"), node.Value);
-        }
-
-        [Fact]
-        public void FromJsonArrayOfComplexObjectsRaw()
-        {
-            var signaler = Common.GetSignaler();
-            var node = new Node("", JToken.Parse(@"[{""foo1"": {""name"": ""thomas""}}, {""foo2"": {""name"": ""hansen""}}]"));
-            signaler.Signal(".json2lambda-raw", node);
-            Assert.Equal("foo1", node.Children.First().Name);
-            Assert.Equal("name", node.Children.First().Children.First().Name);
-            Assert.Equal("thomas", node.Children.First().Children.First().Value);
-            Assert.Equal("foo2", node.Children.Skip(1).First().Name);
-            Assert.Equal("name", node.Children.Skip(1).First().Children.First().Name);
-            Assert.Equal("hansen", node.Children.Skip(1).First().Children.First().Value);
-            signaler.Signal("lambda2hyper", node);
-            Assert.Equal(@"foo1
-   name:thomas
-foo2
-   name:hansen
+            Assert.Equal(@".
+   foo1
+      name:thomas
+.
+   foo2
+      name:hansen
 ".Replace("\r", "").Replace("\n", "\r\n"), node.Value);
         }
 
@@ -182,10 +162,12 @@ foo2
             signaler.Signal("json2lambda", node);
             signaler.Signal("lambda2hyper", node);
             Assert.Equal(@"foo
-   foo1:long:5
-   foo2
-      bar1:long:7
-      boolean:bool:true
+   .
+      foo1:long:5
+   .
+      foo2
+         bar1:long:7
+         boolean:bool:true
 jo:dude
 ".Replace("\r", "").Replace("\n", "\r\n"), node.Value);
         }
@@ -198,10 +180,12 @@ jo:dude
             signaler.Signal(".json2lambda-raw", node);
             signaler.Signal("lambda2hyper", node);
             Assert.Equal(@"foo
-   foo1:long:5
-   foo2
-      bar1:long:7
-      boolean:bool:true
+   .
+      foo1:long:5
+   .
+      foo2
+         bar1:long:7
+         boolean:bool:true
 jo:dude
 ".Replace("\r", "").Replace("\n", "\r\n"), node.Value);
         }
@@ -363,6 +347,61 @@ foo2:bar2
             signaler.Signal("hyper2lambda", node);
             signaler.Signal(".lambda2json-raw", node);
             Assert.Equal(@"[{""foo1"":{""foo11"":""bar11""}},{""foo2"":{""foo22"":""bar22""}}]", node.Get<JContainer>().ToString(Newtonsoft.Json.Formatting.None));
+        }
+
+        [Fact]
+        public void ToJsonHyperlambdaInvocation_01()
+        {
+            var lambda = Common.Evaluate(@"
+lambda2json
+   foo:howdy
+   bar:hello
+json2lambda:x:-
+");
+            Assert.Equal(@"{""foo"":""howdy"",""bar"":""hello""}", lambda.Children.First().Get<string>());
+            Assert.Equal("json2lambda\r\n   foo:howdy\r\n   bar:hello\r\n", lambda.Children.Skip(1).First().ToHyperlambda());
+        }
+
+        [Fact]
+        public void ToJsonHyperlambdaInvocation_02()
+        {
+            var lambda = Common.Evaluate(@"
+lambda2json
+   .:howdy
+   .:hello
+json2lambda:x:-
+");
+            Assert.Equal(@"[""howdy"",""hello""]", lambda.Children.First().Get<string>());
+            Assert.Equal("json2lambda\r\n   .:howdy\r\n   .:hello\r\n", lambda.Children.Skip(1).First().ToHyperlambda());
+        }
+
+        [Fact]
+        public void ToJsonHyperlambdaInvocation_03()
+        {
+            var lambda = Common.Evaluate(@"
+lambda2json
+   .:howdy
+   .
+      foo1:int:5
+json2lambda:x:-
+");
+            Assert.Equal(@"[""howdy"",{""foo1"":5}]", lambda.Children.First().Get<string>());
+            Assert.Equal("json2lambda\r\n   .:howdy\r\n   .\r\n      foo1:long:5\r\n", lambda.Children.Skip(1).First().ToHyperlambda());
+        }
+
+        [Fact]
+        public void ToJsonHyperlambdaInvocation_04()
+        {
+            var lambda = Common.Evaluate(@"
+lambda2json
+   .:howdy
+   .
+      foo1:bar1
+      foo2:int:5
+json2lambda:x:-
+");
+            Assert.Equal(@"[""howdy"",{""foo1"":""bar1"",""foo2"":5}]", lambda.Children.First().Get<string>());
+            Assert.Equal("json2lambda\r\n   .:howdy\r\n   .\r\n      foo1:bar1\r\n      foo2:long:5\r\n", lambda.Children.Skip(1).First().ToHyperlambda());
         }
     }
 }

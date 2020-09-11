@@ -31,9 +31,9 @@ namespace magic.lambda.json
             else
                 tmp.AddRange(input.Children.Select(x => x.Clone()));
 
-            var token = Lambda2JsonTransformer.ToJson(tmp);
+            var jContainer = Lambda2JsonTransformer.ToJson(tmp);
             input.Clear();
-            input.Value = token;
+            input.Value = jContainer;
         }
     }
 }

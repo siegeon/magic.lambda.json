@@ -36,9 +36,9 @@ namespace magic.lambda.json
                 tmp.AddRange(input.Children.Select(x => x.Clone()));
             }
 
-            var token = Lambda2JsonTransformer.ToJson(tmp);
+            var jContainer = Lambda2JsonTransformer.ToJson(tmp);
             input.Clear();
-            input.Value = token.ToString(format ? Newtonsoft.Json.Formatting.Indented : Newtonsoft.Json.Formatting.None);
+            input.Value = jContainer.ToString(format ? Newtonsoft.Json.Formatting.Indented : Newtonsoft.Json.Formatting.None);
         }
     }
 }

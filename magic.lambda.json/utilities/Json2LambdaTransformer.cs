@@ -3,7 +3,6 @@
  * See the enclosed LICENSE file for details.
  */
 
-using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using magic.node;
 
@@ -18,25 +17,29 @@ namespace magic.lambda.json.utilities
          * Transforms the given JContainer to a lambda object,
          * and injects into the given node.
          */
-        internal static IEnumerable<Node> ToNodes(JContainer container)
+        internal static void ToNode(Node node, JContainer container)
         {
-            var node = new Node();
             JToken2Node(node, container);
-            return node.Children;
         }
 
         #region [ -- Private helper methods -- ]
 
+        /*
+         * Transforms a JToken to a node, and puts result into specified node.
+         */
         static void JToken2Node(Node node, JToken token)
         {
-            if (token is JArray)
-                JArray2Node(node, token as JArray);
-            else if (token is JObject)
-                JObject2Node(node, token as JObject);
-            else if (token is JValue)
-                node.Value = (token as JValue).Value;
+            if (token is JArray array)
+                JArray2Node(node, array);
+            else if (token is JObject obj)
+                JObject2Node(node, obj);
+            else if (token is JValue val)
+                node.Value = val.Value;
         }
 
+        /*
+         * Transforms a JObject to a node, and puts result into specified node.
+         */
         static void JObject2Node(Node node, JObject obj)
         {
             foreach (var idx in obj)
@@ -47,36 +50,14 @@ namespace magic.lambda.json.utilities
             }
         }
 
+        /*
+         * Transforms a JArray to a node, and puts result into specified node.
+         */
         static void JArray2Node(Node node, JArray arr)
         {
             foreach (var idx in arr)
             {
-                // Special treatment for JObjects with only one property.
-                if (idx is JObject)
-                {
-                    // Checking if object has only one property.
-                    var obj = idx as JObject;
-                    if (obj.Count == 1 && obj.First is JProperty jProp)
-                    {
-                        if (jProp.Value is JValue)
-                        {
-                            // Object is a simple object with a single value.
-                            var prop = obj.First as JProperty;
-                            node.Add(new Node(prop.Name, (prop.Value as JValue).Value));
-                            continue;
-                        }
-                        else
-                        {
-                            // Object is a simple object with multiple properties.
-                            var prop = obj.First as JProperty;
-                            var tmp = new Node(prop.Name);
-                            node.Add(tmp);
-                            JToken2Node(tmp, prop.Value);
-                            continue;
-                        }
-                    }
-                }
-                var cur = new Node();
+                var cur = new Node(".");
                 node.Add(cur);
                 JToken2Node(cur, idx);
             }

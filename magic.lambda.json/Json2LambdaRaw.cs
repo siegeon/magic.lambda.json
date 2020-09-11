@@ -26,8 +26,7 @@ namespace magic.lambda.json.internals
         public void Signal(ISignaler signaler, Node input)
         {
             input.Clear();
-            input.AddRange(
-                Json2LambdaTransformer.ToNodes(input.GetEx<JContainer>()));
+            Json2LambdaTransformer.ToNode(input, input.GetEx<JContainer>());
             input.Value = null;
         }
     }

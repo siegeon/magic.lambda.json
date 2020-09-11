@@ -25,8 +25,7 @@ namespace magic.lambda.json
         public void Signal(ISignaler signaler, Node input)
         {
             input.Clear();
-            input.AddRange(
-                Json2LambdaTransformer.ToNodes(JContainer.Parse(input.GetEx<string>()) as JContainer));
+            Json2LambdaTransformer.ToNode(input, JContainer.Parse(input.GetEx<string>()) as JContainer);
             input.Value = null;
         }
     }
