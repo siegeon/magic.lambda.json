@@ -5,9 +5,9 @@
 
 using Newtonsoft.Json.Linq;
 using magic.node;
+using magic.node.extensions;
 using magic.signals.contracts;
 using magic.lambda.json.utilities;
-using magic.node.extensions;
 
 namespace magic.lambda.json.internals
 {
@@ -25,7 +25,9 @@ namespace magic.lambda.json.internals
         /// <param name="input">Arguments to slot.</param>
         public void Signal(ISignaler signaler, Node input)
         {
-            Json2LambdaTransformer.ToNode(input, input.GetEx<JContainer>());
+            input.Clear();
+            input.AddRange(
+                Json2LambdaTransformer.ToNodes(input.GetEx<JContainer>()));
             input.Value = null;
         }
     }

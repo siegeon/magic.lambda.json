@@ -3,6 +3,7 @@
  * See the enclosed LICENSE file for details.
  */
 
+using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using magic.node;
 
@@ -17,11 +18,11 @@ namespace magic.lambda.json.utilities
          * Transforms the given JContainer to a lambda object,
          * and injects into the given node.
          */
-        internal static void ToNode(Node node, JContainer container)
+        internal static IEnumerable<Node> ToNodes(JContainer container)
         {
-            node.Clear();
-            node.Value = null;
+            var node = new Node();
             JToken2Node(node, container);
+            return node.Children;
         }
 
         #region [ -- Private helper methods -- ]

@@ -24,7 +24,9 @@ namespace magic.lambda.json
         /// <param name="input">Arguments to slot.</param>
         public void Signal(ISignaler signaler, Node input)
         {
-            Json2LambdaTransformer.ToNode(input, JToken.Parse(input.GetEx<string>()) as JContainer);
+            input.Clear();
+            input.AddRange(
+                Json2LambdaTransformer.ToNodes(JContainer.Parse(input.GetEx<string>()) as JContainer));
             input.Value = null;
         }
     }
