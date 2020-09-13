@@ -70,6 +70,8 @@ namespace magic.lambda.json.utilities
         {
             // Notice, for JSON we want to return dates as UTC, JavaScript style!
             var value = idx.GetEx<object>();
+
+            // Notice, we always return everything as UTC.
             if (value is DateTime dateValue)
                 value = dateValue.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
             return new JValue(value);

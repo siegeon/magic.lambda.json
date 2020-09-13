@@ -3,6 +3,7 @@
  * See the enclosed LICENSE file for details.
  */
 
+using System;
 using Newtonsoft.Json.Linq;
 using magic.node;
 
@@ -34,7 +35,14 @@ namespace magic.lambda.json.utilities
             else if (token is JObject obj)
                 JObject2Node(node, obj);
             else if (token is JValue val)
+            {
+                var value = val.Value;
+
+                // Notice, we always assume everything we get in is UTC.
+                if (value is DateTime dt)
+                    value = new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second, DateTimeKind.Utc);
                 node.Value = val.Value;
+            }
         }
 
         /*
