@@ -16,7 +16,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.7" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,10 +24,5 @@
     <ProjectReference Include="..\..\magic.lambda.hyperlambda\magic.lambda.hyperlambda\dev_magic.lambda.hyperlambda.csproj" />
     <ProjectReference Include="..\..\magic.signals\magic.signals.services\dev_magic.signals.services.csproj" />
     <ProjectReference Include="..\magic.lambda.json\dev_magic.lambda.json.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Microsoft.Extensions.Configuration">
-    </Reference>
   </ItemGroup>
 </Project>
