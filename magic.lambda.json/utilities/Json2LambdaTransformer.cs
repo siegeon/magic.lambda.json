@@ -41,7 +41,7 @@ namespace magic.lambda.json.utilities
                 // Notice, we always assume everything we get in is UTC.
                 if (value is DateTime dt)
                     value = new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second, DateTimeKind.Utc);
-                node.Value = val.Value;
+                node.Value = value;
             }
         }
 
