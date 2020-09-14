@@ -1,7 +1,7 @@
 
 # Magic Lambda Json
 
-[![Build status](https://travis-ci.org/polterguy/magic.lambda.json.svg?master)](https://travis-ci.org/polterguy/magic.lambda.json)
+[![Build status](https://travis-ci.com/polterguy/magic.lambda.json.svg?master)](https://travis-ci.com/polterguy/magic.lambda.json)
 
 This project provides JSON helper slots for [Magic](https://github.com/polterguy/magic). More specifically, it provides the following slots.
 
