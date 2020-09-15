@@ -3,7 +3,7 @@
 
 [![Build status](https://travis-ci.com/polterguy/magic.lambda.json.svg?master)](https://travis-ci.com/polterguy/magic.lambda.json)
 
-This project provides JSON helper slots for [Magic](https://github.com/polterguy/magic). More specifically, it provides the following slots.
+This project provides JSON helper slots for Magic. More specifically, it provides the following slots.
 
 * __[json2lambda]__ - Creates a lambda object out of a JSON input string.
 * __[lambda2json]__ - Creates JSON out of a lambda object.
@@ -18,6 +18,10 @@ lambda2json:x:-/*
 
 The **[lambda2json]** slot can optionally take a **[format]** argument, with a boolean _"true"_ value, which implies the
 resulting JSON will be indeneted and nicely formated, making it more readable.
+
+**Notice** - Although all JSON can be transformed into lambda, the opposite is not necessarily true. This is because
+lambda allows for having multiple nodes with the same name for instance, which would result in a JSON object with
+multiple properties having the same key. Hence, have this in mind as you persist your lambda objects into JSON.
 
 ## Quality gates
 
