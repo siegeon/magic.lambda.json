@@ -10,7 +10,7 @@
     <Description>JSON helper slots for Magic to help you transform JSON to lambda and vice versa. To use package go to https://polterguy.github.io</Description>
     <PackageProjectUrl>https://github.com/polterguy/magic.lambda.json</PackageProjectUrl>
     <PackOnBuild>true</PackOnBuild>
-    <PackageVersion>8.9.0</PackageVersion>
+    <PackageVersion>8.9.1</PackageVersion>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/polterguy/magic.lambda.json.git</RepositoryUrl>
