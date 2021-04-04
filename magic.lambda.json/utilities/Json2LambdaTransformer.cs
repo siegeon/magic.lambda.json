@@ -18,17 +18,7 @@ namespace magic.lambda.json.utilities
          * Transforms the given JContainer to a lambda object,
          * and injects into the given node.
          */
-        internal static void ToNode(Node node, JContainer container)
-        {
-            JToken2Node(node, container);
-        }
-
-        #region [ -- Private helper methods -- ]
-
-        /*
-         * Transforms a JToken to a node, and puts result into specified node.
-         */
-        static void JToken2Node(Node node, JToken token)
+        internal static void ToNode(Node node, JToken token)
         {
             if (token is JArray array)
                 JArray2Node(node, array);
@@ -45,6 +35,8 @@ namespace magic.lambda.json.utilities
             }
         }
 
+        #region [ -- Private helper methods -- ]
+
         /*
          * Transforms a JObject to a node, and puts result into specified node.
          */
@@ -54,7 +46,7 @@ namespace magic.lambda.json.utilities
             {
                 var cur = new Node(idx.Key);
                 node.Add(cur);
-                JToken2Node(cur, idx.Value);
+                ToNode(cur, idx.Value);
             }
         }
 
@@ -67,7 +59,7 @@ namespace magic.lambda.json.utilities
             {
                 var cur = new Node(".");
                 node.Add(cur);
-                JToken2Node(cur, idx);
+                ToNode(cur, idx);
             }
         }
 
