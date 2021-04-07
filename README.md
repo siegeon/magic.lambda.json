@@ -15,7 +15,7 @@ lambda2json:x:-/*
 ```
 
 The **[lambda2json]** slot can optionally take a **[format]** argument, with a boolean _"true"_ value, which implies the
-resulting JSON will be indeneted and nicely formated, making it more readable.
+resulting JSON will be indented and nicely formated, making it more readable.
 
 **Notice** - Although all JSON can be transformed into lambda, the opposite is not necessarily true. This is because
 lambda allows for having multiple nodes with the same name for instance, which would result in a JSON object with
