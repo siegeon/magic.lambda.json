@@ -21,6 +21,10 @@ resulting JSON will be indented and nicely formated, making it more readable.
 lambda allows for having multiple nodes with the same name for instance, which would result in a JSON object with
 multiple properties having the same key. Hence, have this in mind as you persist your lambda objects into JSON.
 
+## Project website
+
+The source code for this repository can be found at [github.com/polterguy/magic.lambda.json](https://github.com/polterguy/magic.lambda.json), and you can provide feedback, provide bug reports, etc at the same place.
+
 ## Quality gates
 
 - [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=polterguy_magic.lambda.json&metric=alert_status)](https://sonarcloud.io/dashboard?id=polterguy_magic.lambda.json)
