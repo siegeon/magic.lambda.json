@@ -28,7 +28,7 @@ namespace magic.lambda.json.tests
         public void FromJsonSimpleObjectRaw()
         {
             var signaler = Common.GetSignaler();
-            var node = new Node("", JToken.Parse(@"{""foo"":5}"));
+            var node = new Node("", @"{""foo"":5}");
             signaler.Signal(".json2lambda-raw", node);
             Assert.Equal("foo", node.Children.First().Name);
             Assert.Equal(5L, node.Children.First().Value);
@@ -50,7 +50,7 @@ namespace magic.lambda.json.tests
         public void FromJsonSimpleObjectBooleanRaw()
         {
             var signaler = Common.GetSignaler();
-            var node = new Node("", JToken.Parse(@"{""foo1"":true,""foo2"":false}"));
+            var node = new Node("", @"{""foo1"":true,""foo2"":false}");
             signaler.Signal(".json2lambda-raw", node);
             Assert.Equal("foo1", node.Children.First().Name);
             Assert.Equal(true, node.Children.First().Value);
@@ -74,7 +74,7 @@ namespace magic.lambda.json.tests
         public void FromJsonMultiplePropertiesRaw()
         {
             var signaler = Common.GetSignaler();
-            var node = new Node("", JToken.Parse(@"{""foo"":5, ""bar"": ""howdy""}"));
+            var node = new Node("", @"{""foo"":5, ""bar"": ""howdy""}");
             signaler.Signal(".json2lambda-raw", node);
             Assert.Equal("foo", node.Children.First().Name);
             Assert.Equal(5L, node.Children.First().Value);
@@ -100,7 +100,7 @@ namespace magic.lambda.json.tests
         public void FromJsonArrayOfIntegersRaw()
         {
             var signaler = Common.GetSignaler();
-            var node = new Node("", JToken.Parse(@"[5, 6, 7]"));
+            var node = new Node("", @"[5, 6, 7]");
             signaler.Signal(".json2lambda-raw", node);
             Assert.Equal(".", node.Children.First().Name);
             Assert.Equal(5L, node.Children.First().Value);
@@ -128,7 +128,7 @@ namespace magic.lambda.json.tests
         public void FromJsonArrayOfObjectsRaw()
         {
             var signaler = Common.GetSignaler();
-            var node = new Node("", JToken.Parse(@"[{""foo1"": ""bar1""}, {""foo2"": ""bar2""}]"));
+            var node = new Node("", @"[{""foo1"": ""bar1""}, {""foo2"": ""bar2""}]");
             signaler.Signal(".json2lambda-raw", node);
             Assert.Equal(".", node.Children.First().Name);
             Assert.Equal("foo1", node.Children.First().Children.First().Name);
@@ -176,7 +176,7 @@ jo:dude
         public void FromJsonComplexObjectWithArrayRaw()
         {
             var signaler = Common.GetSignaler();
-            var node = new Node("", JToken.Parse(@"{""foo"":[{""foo1"":5}, {""foo2"":{""bar1"":7, ""boolean"":true}}], ""jo"":""dude""}"));
+            var node = new Node("", @"{""foo"":[{""foo1"":5}, {""foo2"":{""bar1"":7, ""boolean"":true}}], ""jo"":""dude""}");
             signaler.Signal(".json2lambda-raw", node);
             signaler.Signal("lambda2hyper", node);
             Assert.Equal(@"foo
