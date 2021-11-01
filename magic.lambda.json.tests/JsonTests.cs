@@ -29,7 +29,7 @@ namespace magic.lambda.json.tests
         {
             var signaler = Common.GetSignaler();
             var node = new Node("", @"{""foo"":5}");
-            signaler.Signal(".json2lambda-raw", node);
+            signaler.Signal("json2lambda", node);
             Assert.Equal("foo", node.Children.First().Name);
             Assert.Equal(5L, node.Children.First().Value);
         }
@@ -51,7 +51,7 @@ namespace magic.lambda.json.tests
         {
             var signaler = Common.GetSignaler();
             var node = new Node("", @"{""foo1"":true,""foo2"":false}");
-            signaler.Signal(".json2lambda-raw", node);
+            signaler.Signal("json2lambda", node);
             Assert.Equal("foo1", node.Children.First().Name);
             Assert.Equal(true, node.Children.First().Value);
             Assert.Equal("foo2", node.Children.Skip(1).First().Name);
@@ -75,7 +75,7 @@ namespace magic.lambda.json.tests
         {
             var signaler = Common.GetSignaler();
             var node = new Node("", @"{""foo"":5, ""bar"": ""howdy""}");
-            signaler.Signal(".json2lambda-raw", node);
+            signaler.Signal("json2lambda", node);
             Assert.Equal("foo", node.Children.First().Name);
             Assert.Equal(5L, node.Children.First().Value);
             Assert.Equal("bar", node.Children.Skip(1).First().Name);
@@ -101,7 +101,7 @@ namespace magic.lambda.json.tests
         {
             var signaler = Common.GetSignaler();
             var node = new Node("", @"[5, 6, 7]");
-            signaler.Signal(".json2lambda-raw", node);
+            signaler.Signal("json2lambda", node);
             Assert.Equal(".", node.Children.First().Name);
             Assert.Equal(5L, node.Children.First().Value);
             Assert.Equal(".", node.Children.Skip(1).First().Name);
@@ -129,7 +129,7 @@ namespace magic.lambda.json.tests
         {
             var signaler = Common.GetSignaler();
             var node = new Node("", @"[{""foo1"": ""bar1""}, {""foo2"": ""bar2""}]");
-            signaler.Signal(".json2lambda-raw", node);
+            signaler.Signal("json2lambda", node);
             Assert.Equal(".", node.Children.First().Name);
             Assert.Equal("foo1", node.Children.First().Children.First().Name);
             Assert.Equal("bar1", node.Children.First().Children.First().Value);
@@ -177,7 +177,7 @@ jo:dude
         {
             var signaler = Common.GetSignaler();
             var node = new Node("", @"{""foo"":[{""foo1"":5}, {""foo2"":{""bar1"":7, ""boolean"":true}}], ""jo"":""dude""}");
-            signaler.Signal(".json2lambda-raw", node);
+            signaler.Signal("json2lambda", node);
             signaler.Signal("lambda2hyper", node);
             Assert.Equal(@"foo
    .
