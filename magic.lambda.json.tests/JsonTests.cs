@@ -207,13 +207,13 @@ foo2:bar2
         public void ToJsonSimpleObjectFormat()
         {
             var signaler = Common.GetSignaler();
-            var node = new Parser(@"
+            var node = HyperlambdaParser.Parse(@"
 .lambda
    foo1
    foo2:bar2
 lambda2json:x:-/*
    format:bool:true
-").Lambda();
+");
             signaler.Signal("eval", node);
             var json = node.Children.Skip(1).First().Get<string>();
             Assert.Equal("{\n  \"foo1\": null,\n  \"foo2\": \"bar2\"\n}", json.Replace("\r\n", "\n"));
