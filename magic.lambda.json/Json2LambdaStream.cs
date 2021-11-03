@@ -31,8 +31,10 @@ namespace magic.lambda.json
         /// <returns>An awaitable task.</returns>
         public async Task SignalAsync(ISignaler signaler, Node input)
         {
-            var encoding = Encoding.GetEncoding(input.Children.FirstOrDefault(x => x.Name == "encoding")?.GetEx<string>() ?? "utf-8");
-            input.Clear();
+            // Figuring out encoding of stream, defaulting to UTF8.
+            var encoding = GetEncoding(input);
+
+            // Loading JSON and transforming to a lambda object.
             Json2LambdaTransformer.ToNode(
                 input,
                 await JContainer.LoadAsync(
@@ -40,6 +42,8 @@ namespace magic.lambda.json
                         new StreamReader(input.GetEx<Stream>() ??
                             throw new ArgumentException("No stream object given to [json2lambda-stream]"),
                             encoding))));
+
+            // House cleaning.
             input.Value = null;
         }
 
@@ -50,8 +54,10 @@ namespace magic.lambda.json
         /// <param name="input">Arguments to slot.</param>
         public void Signal(ISignaler signaler, Node input)
         {
-            var encoding = Encoding.GetEncoding(input.Children.FirstOrDefault(x => x.Name == "encoding")?.GetEx<string>() ?? "utf-8");
-            input.Clear();
+            // Figuring out encoding of stream, defaulting to UTF8.
+            var encoding = GetEncoding(input);
+
+            // Loading JSON and transforming to a lambda object.
             Json2LambdaTransformer.ToNode(
                 input,
                 JContainer.Load(
@@ -59,7 +65,24 @@ namespace magic.lambda.json
                         new StreamReader(input.GetEx<Stream>() ??
                             throw new ArgumentException("No stream object given to [json2lambda-stream]"),
                             encoding))));
+
+            // House cleaning.
             input.Value = null;
         }
+
+        #region [ -- Private helper methods -- ]
+
+        Encoding GetEncoding(Node input)
+        {
+            var encoding = Encoding.GetEncoding(
+                input.Children
+                    .FirstOrDefault(x => x.Name == "encoding")?
+                    .GetEx<string>() ??
+                    "utf-8");
+            input.Clear();
+            return encoding;
+        }
+
+        #endregion
     }
 }
