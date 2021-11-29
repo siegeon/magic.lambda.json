@@ -39,7 +39,7 @@ namespace magic.lambda.json
                 await JContainer.LoadAsync(
                     new JsonTextReader(
                         new StreamReader(input.GetEx<Stream>() ??
-                            throw new ArgumentException("No stream object given to [json2lambda-stream]"),
+                            throw new HyperlambdaException("No stream object given to [json2lambda-stream]"),
                             encoding))));
 
             // House cleaning.
@@ -62,7 +62,7 @@ namespace magic.lambda.json
                 JContainer.Load(
                     new JsonTextReader(
                         new StreamReader(input.GetEx<Stream>() ??
-                            throw new ArgumentException("No stream object given to [json2lambda-stream]"),
+                            throw new HyperlambdaException("No stream object given to [json2lambda-stream]"),
                             encoding))));
 
             // House cleaning.
